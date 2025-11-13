@@ -1,0 +1,814 @@
+=> Number input & print 
+
+.model small
+.stack 100h
+
+.code
+
+main proc
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,1         ;input data  
+    int 21h
+    mov bh,al
+    
+    mov ah,2         ;out put data
+    mov dl,bl        
+    int 21h
+    
+    mov ah,2
+    mov dl,bh
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+=======> Taking variables 
+.model small
+.stack 100h
+.data 
+
+msg db 3    ;db = define bite 
+msg1 db ?   ;for taking the size from user
+
+.code
+
+main proc   
+
+    mov ax,@data    ;initialize of a data
+    mov ds,ax
+    
+    mov ah,2
+    add msg,48      ;getting the currect ASKII value 
+    mov dl,msg
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov msg1,al
+    
+    mov ah,2        ;this 4 lisnes are for print nect line
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov ah,2        ;print a number from a variable
+    mov dl,msg1
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+
+==========>newline print and beep sound
+
+.model small
+.stack 100h
+.data
+
+var1 db "Enter first Number :  $" 
+var2 db "Enter second Number :  $"
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9     ;Character string output
+    lea dx,var1	 ;lea = load Effective address
+    int 21h 	 ;int = Intiarup 
+    
+    mov ah,1     ;Single key input
+    int 21h
+    mov bl,al
+    
+    mov ah,2     ;Printing a new line
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h   
+    
+    mov ah,9     ;Character string output
+    lea dx,var2
+    int 21h 
+    
+    mov ah,1     ;Single key input
+    int 21h
+    mov bh,al
+    
+    mov ah,2     ;Printing a new line
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov ah,2     ;Single character output
+    mov dl,bl
+    int 21h 
+    
+    mov ah,2     ;Single character output
+    mov dl,bh
+    int 21h
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h  
+    
+    mov ah,2
+    mov dl,07
+    int 21h
+
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+============>Loop concept
+.model small
+.stack 100h
+.data
+
+var1 db "Loop concept: $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax 
+             
+    mov ah,9     ;Character string output
+    lea dx,var1
+    int 21h 
+    
+    mov ah,2     ;Printing a new line
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h   
+    
+    mov cx,26    ;Count Register 26tiems
+    mov ah,2     ;Print function call
+    mov dl,"A"   ;Print register initialization
+    
+    level1:
+    int 21h
+    inc dl       ;Increment the dl value
+    loop level1  ;Recall revel1
+    
+          
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+=========>JMP Concept
+.model small
+.stack 100h
+.data
+
+var1 db "JMP Concept $"
+var2 db "Assembly Language $"
+var3 db "Programming $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    level1:
+    mov ah,9
+    lea dx,var2
+    int 21h
+    jmp level2
+    
+    level2:
+    mov ah,9
+    lea dx,var3
+    int 21h
+    jmp exit 
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+=======>Sumations of Single Digits
+.model small
+.stack 100h
+.data
+
+var1 db "Enter the first Number : $"
+var2 db "Enter the second Number :  $"
+var3 db "Rsult of Sum : $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h 
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h 
+    
+    mov ah,9
+    lea dx,var2
+    int 21h 
+    
+    mov ah,1
+    int 21h
+    mov bh,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h 
+    
+    mov ah,9
+    lea dx,var3
+    int 21h
+    
+    add bl,bh       ;bl = bl+bh
+    sub bl,48
+    mov ah,2
+    mov dl,bl
+    int 21h
+    
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+======>Subtraction of Single digites 
+.model small
+.stack 100h
+.data
+
+var1 db "Enter the first Number : $"
+var2 db "Enter the second Number : $"
+var3 db "Rsult of Sum : $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h 
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h 
+    
+    mov ah,9
+    lea dx,var2
+    int 21h 
+    
+    mov ah,1
+    int 21h
+    mov bh,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h 
+    
+    mov ah,9
+    lea dx,var3
+    int 21h
+    
+    sub bl,bh       ;bl = bl-bh
+    add bl,48
+    mov ah,2
+    mov dl,bl
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+
+========> Sumations of Three numbers
+.model small
+.stack 100h
+.data
+result db ?
+var1 db "Enter the first Number : $"
+var2 db 10,13,"Enter the second Number : $" 
+var3 db 10,13,"Enter the third Number : $"
+var4 db 10,13,"Rsult of Sum : $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,9
+    lea dx,var2
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bh,al
+    
+    mov ah,9
+    lea dx,var3
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov cl,al
+    
+    mov ah,9
+    lea dx,var4
+    int 21h
+    add bl,bh
+    sub bl,48       ;bl = bl-48
+    mov ch,bl
+    add ch,cl
+    sub ch,48       ;ch = ch-48
+    mov result,ch
+    mov ah,2
+    mov dl,result
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+========>Simple mathod Sum of three number 
+.model small
+.stack 100h
+.data
+result db ?
+var1 db "Enter the first Number : $"
+var2 db 10,13,"Enter the second Number : $" 
+var3 db 10,13,"Enter the third Number : $"
+var4 db 10,13,"Rsult of Sum : $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,9
+    lea dx,var2
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bh,al
+    
+    mov ah,9
+    lea dx,var3
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov cl,al
+    
+    mov ah,9
+    lea dx,var4
+    int 21h
+    add bl,bh
+    sub bl,48       ;bl = bl-48
+    add bl,cl
+    sub bl,48       ;bl = bl-48
+    mov ah,2
+    mov dl,bl
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+=================> Sum of 4 single number 
+.model small
+.stack 100h
+.data
+
+var1 db "Enter the first Number : $"
+var2 db 10,13,"Enter the second Number : $" 
+var3 db 10,13,"Enter the third Number : $"
+var4 db 10,13,"Ender the fourth Numer : $"
+var5 db 10,13,"Rsult of Sum : $"
+
+.code
+
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,9
+    lea dx,var2
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bh,al
+    
+    mov ah,9
+    lea dx,var3
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov cl,al
+    
+    mov ah,9
+    lea dx,var4
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov ch,al
+    
+    mov ah,9
+    lea dx,var5
+    int 21h
+    add bl,bh
+    sub bl,48       ;bl = bl-48
+    add bl,cl
+    sub bl,48       ;bl = bl-48
+    add bl,ch
+    sub bl,48       ;bl = bl-48
+    mov ah,2
+    mov dl,bl
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+=====>Loswer case to Upper case
+.model
+.stack 100h
+.data 
+
+var1 db "Lower form : $"
+var2 db 10,13,"Upper form : $"
+
+.code
+main proc
+    mov ax,@data 
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,9
+    lea dx,var2
+    int 21h
+    
+    mov ah,2
+    sub bl,32
+    mov dl,bl
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    main endp
+end main
+    
+========> Upper case to Lower case
+.model small
+.stack 100h
+.data 
+
+var1 db "Upper form : $"
+Var2 db 10,13,"Lower form : $"
+
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,9
+    lea dx,var2
+    int 21h
+    
+    mov ah,2
+    add bl,32
+    mov dl,bl
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+=======> Find the Lergest number in 3number 
+.model small
+.stack 100h
+.data 
+
+var1 db "Input three numbers  : $"
+var2 db 10,13,"The largest number is : $"
+
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    int 21h
+    mov bh,al
+    int 21h
+    mov cl,al
+
+    cmp bl,bh
+    jge a
+    jmp b 
+    
+    a:
+    cmp bl,cl
+    jge e
+    jmp d
+    
+    b:
+    cmp bh,cl
+    jge c
+    jmp d
+    
+    
+    c:
+    mov ah,9
+    lea dx,var2
+    int 21h
+    mov ah,2
+    mov dl,bh        ;b
+    int 21h
+    jmp exit 
+    
+    d:
+    mov ah,9
+    lea dx,var2
+    int 21h
+    mov ah,2
+    mov dl,cl        ;c
+    int 21h
+    jmp exit
+    
+    e:
+    mov ah,9
+    lea dx,var2
+    int 21h
+    mov ah,2
+    mov dl,bl        ;a
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+======> Constent concept.
+.model small
+.stack 100h
+.data 
+
+var1 db "Input three numbers  : $"
+const equ 10,13,"5"
+var2 equ 10,13,"Sihuuu : ",1,"$"
+var db var2
+
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov const,al
+    
+    mov ah,2
+    mov dl,const
+    int 21h
+    
+    mov ah,9
+    lea dx,var
+    int 21h
+  
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+
+======> Taking character 3 input and print
+.model small
+.stack 100h
+.data 
+
+var db "Input three initials  : ",10,13,"$"
+
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bh,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov cl,al
+    
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov ah,2
+    mov dl,bl
+    int 21h
+    
+    mov ah,2
+    mov dl,bh
+    int 21h
+    
+    mov ah,2
+    mov dl,cl
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
+17===Done  
+
+
+
+
+ 
+==================================
+.model small 
+.stack 100h
+.data 
+
+var db 'Enter a number for loop: $'
+num db ?
+
+.code
+main proc
+    mov ax,@data 
+    mov ds,ax
+    
+    mov ah,9
+    lea dx,var
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov cl,al
+    sub cl,48
+    mov ch,0
+    
+    
+    int cx,26
+    mov bl,'A'
+    
+    level:
+    mov ah,2
+    mov dl,bl
+    int 21h
+    inc bl
+    loop level
+    
+    edit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
+
