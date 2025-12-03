@@ -40,8 +40,8 @@ main proc
     
     level3:
     cmp bl,'F'
-    jle l4
-    jmp l5
+    jle level4
+    jmp level5
     
     level4:
     sub bl,17
