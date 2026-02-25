@@ -931,7 +931,6 @@ main endp
 end main
 
 
-
 ========> Division!
 .model small
 .stack 100h
@@ -982,6 +981,92 @@ main proc
 exit:
     mov ah,4ch
     int 21h    
+
+main endp
+end main
+
+============> Squre Pattern
+.model small
+.stack 100h
+.data  
+
+msg db 'Enter a number: $'
+
+num db ?
+
+.code
+main proc 
+    mov ax,@data
+    mov ds,ax
+    
+    ; ===== Input =====
+    mov ah,9
+    lea dx,msg
+    int 21h
+    
+    mov ah,1
+    int 21h
+    sub al,48        ; ASCII ? number
+    mov num,al
+     
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov bl,num        ; BL = N (rows)
+
+row_loop:
+    mov cl,num        ; CL = N (columns)
+    
+col_loop:
+    mov ah,2
+    mov dl,'*'
+    int 21h
+    dec cl
+    jnz col_loop
+    
+    ; ===== New Line =====
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    dec bl
+    jnz row_loop
+    
+    ; ===== Exit =====
+    mov ah,4ch
+    int 21h
+    
+main endp
+end main
+
+=============> LOGICAL GATES
+.model small
+.stack 100h
+.data
+.code
+main proc
+
+mov al,5
+mov bl,3
+
+and al,bl    ; AL = 1
+
+mov al,5
+or al,bl     ; AL = 7
+
+mov al,5
+xor al,bl    ; AL = 6
+
+mov al,5
+not al       ; AL = FAh
+
+mov ah,4ch
+int 21h
 
 main endp
 end main
