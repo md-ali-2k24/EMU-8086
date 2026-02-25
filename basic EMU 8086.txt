@@ -812,3 +812,176 @@ main proc
     main endp
 end main
 
+
+============> Triangle Pattern
+.model small
+.stack 100h
+.data 
+
+msg db 'Enter a number : $'
+
+.code
+
+main proc   
+    mov ax,@data
+    mov ds,ax 
+    
+    mov ah,9
+    lea dx,msg
+    int 21h  
+    
+    mov ah,1
+    int 21h
+    sub al,30h        ; ASCII ? number
+    
+    mov cl,al
+    mov ch,0          ; CX = number
+
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+level1:
+    mov bx,cx         ; save outer loop counter
+    
+    mov cx,bx         ; inner loop counter
+    
+level2:
+    mov ah,2
+    mov dl,'*'
+    int 21h
+    loop level2   
+    
+    ; new line
+    mov ah,2
+    mov dl,10
+    int 21h
+    mov dl,13
+    int 21h
+    
+    mov cx,bx         ; restore outer loop counter
+    loop level1
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    
+main endp
+end main
+
+========> Multiplication
+.model small
+.stack 100h
+.data  
+
+msg1 db 'Enter first number : $'
+msg2 db 10,13,'Enter second number: $'
+resultMsg db 10,13,'Result: $'
+
+num1 db ?
+num2 db ?
+
+.code
+main proc 
+    mov ax,@data
+    mov ds,ax
+    
+    ; ===== First Number =====
+    mov ah,9
+    lea dx,msg1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    sub al,48        ; ASCII ? number
+    mov num1,al
+    
+    ; ===== Second Number =====
+    mov ah,9
+    lea dx,msg2
+    int 21h
+    
+    mov ah,1
+    int 21h
+    sub al,48
+    mov num2,al 
+    
+    ; ===== Multiplication =====
+    mov al,num1
+    mov bl,num2
+    mul bl           ; AX = AL × BL
+    
+    ; ===== Display Result =====
+    mov ah,9
+    lea dx,resultMsg
+    int 21h
+    
+    add al,48        ; convert to ASCII
+    mov dl,al
+    mov ah,2
+    int 21h
+    
+exit:
+    mov ah,4ch
+    int 21h    
+
+main endp
+end main
+
+
+
+========> Division!
+.model small
+.stack 100h
+.data  
+
+msg1 db 'Enter a number : $'
+msg2 db 10,13,'Enter divisor: $'
+
+a db ?
+b db ?
+
+.code
+main proc 
+    mov ax,@data
+    mov ds,ax
+    
+    ; first number
+    mov ah,9
+    lea dx,msg1
+    int 21h
+    
+    mov ah,1
+    int 21h
+    sub al,48
+    mov a,al
+    
+    ; second number
+    mov ah,9
+    lea dx,msg2
+    int 21h
+    
+    mov ah,1
+    int 21h
+    sub al,48
+    mov b,al 
+    
+    ; division
+    mov al,a
+    mov ah,0
+    div b        ; AL = quotient
+    
+    ; print result
+    add al,48
+    mov dl,al
+    mov ah,2
+    int 21h
+    
+exit:
+    mov ah,4ch
+    int 21h    
+
+main endp
+end main
